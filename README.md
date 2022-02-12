@@ -1,2 +1,2 @@
-# cloud_curriculum
+# cloud-curriculum
 cloud native development curriculum practice
