@@ -1,4 +1,6 @@
-# Getting Started: https://www.youtube.com/watch?v=Nv2DERaMx-4
+# Getting Started
+
+### Reference Video: https://www.youtube.com/watch?v=Nv2DERaMx-4
 
 ### Reference Documentation
 For further reference, please consider the following sections:
