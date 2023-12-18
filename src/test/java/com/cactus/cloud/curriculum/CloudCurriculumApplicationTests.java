@@ -1,4 +1,4 @@
-package com.cactus.cloudcurriculum;
+package com.cactus.cloud.curriculum;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

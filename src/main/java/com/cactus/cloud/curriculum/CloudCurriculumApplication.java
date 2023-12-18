@@ -1,4 +1,4 @@
-package com.cactus.cloudcurriculum;
+package com.cactus.cloud.curriculum;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
