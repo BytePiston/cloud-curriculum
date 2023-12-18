@@ -1,6 +1,7 @@
 package com.cactus.cloud.curriculum.controller;
 
 import com.cactus.cloud.curriculum.entity.Department;
+import com.cactus.cloud.curriculum.exception.DepartmentNotFoundException;
 import com.cactus.cloud.curriculum.service.IDepartmentService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ public class DepartmentController {
     }
 
     @GetMapping("/{id}")
-    public Optional<Department> fetchDepartmentById(@PathVariable("id") String id){
+    public Optional<Department> fetchDepartmentById(@PathVariable("id") String id) throws DepartmentNotFoundException {
         return departmentService.fetchDepartmentById(id);
     }
 
@@ -38,7 +39,7 @@ public class DepartmentController {
     }
 
     @PutMapping("/{id}")
-    public Optional<Department> updateDepartmentById(@PathVariable("id") String id, @RequestBody Department department){
+    public Optional<Department> updateDepartmentById(@PathVariable("id") String id, @RequestBody Department department) throws DepartmentNotFoundException {
         return departmentService.updateDepartment(id, department);
     }
 

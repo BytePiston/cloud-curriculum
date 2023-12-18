@@ -1,6 +1,7 @@
 package com.cactus.cloud.curriculum.service;
 
 import com.cactus.cloud.curriculum.entity.Department;
+import com.cactus.cloud.curriculum.exception.DepartmentNotFoundException;
 import com.cactus.cloud.curriculum.repository.IDepartmentRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,33 +28,34 @@ public class DepartmentService implements IDepartmentService{
 
     @Override
     public List<Department> fetchAllDepartments() {
-        LOGGER.info("Fetching all Departments from DB!");
+        LOGGER.info("Fetching all Departments!");
         return departmentRepository.findAll();
     }
 
     @Override
-    public Optional<Department> fetchDepartmentById(String id) {
-        LOGGER.info("Fetching Department by ID from DB!");
+    public Optional<Department> fetchDepartmentById(String id) throws DepartmentNotFoundException {
+        LOGGER.info("Fetching Department by ID!");
         Optional<Department> department = departmentRepository.findById(id);
         if(department.isPresent()){
-            LOGGER.info("Department Found by ID in DB!");
+            LOGGER.info("Department Found!");
         } else{
-            LOGGER.error("Department NOT Found by ID in DB!");
+            LOGGER.error("Department NOT Found!");
+            throw new DepartmentNotFoundException("Department NOT Found!");
         }
         return department;
     }
 
     @Override
     public void deleteDepartmentById(String id) {
-        LOGGER.info("Deleting Department by ID from DB!");
+        LOGGER.info("Deleting Department!");
         departmentRepository.deleteById(id);
     }
 
     @Override
-    public Optional<Department> updateDepartment(String id, Department department) {
+    public Optional<Department> updateDepartment(String id, Department department) throws DepartmentNotFoundException {
         Optional<Department> departmentFromDB = departmentRepository.findById(id);
         if(departmentFromDB.isPresent() && Objects.nonNull(department)){
-            LOGGER.info("Inside Update Department: Department Found for given ID!");
+            LOGGER.info("Inside Update Department: Department Found!");
 //            Department departmentObj = departmentFromDB.get();
             if(department.getDepartmentName() != null && !department.getDepartmentName().isEmpty()){
                 departmentFromDB.get().setDepartmentName(department.getDepartmentName());
@@ -68,8 +70,8 @@ public class DepartmentService implements IDepartmentService{
             departmentRepository.save(departmentFromDB.get());
             return departmentFromDB;
         }   else{
-            LOGGER.error("Inside Update Department: Department NOT Found for given ID!");
-            return Optional.empty();
+            LOGGER.error("Inside Update Department: Department NOT Found!");
+            throw new DepartmentNotFoundException("Inside Update Department: Department NOT Found!");
         }
     }
 
