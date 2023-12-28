@@ -51,7 +51,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=BytePiston_cloud-curriculum
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.token=${{ secrets.SONAR_TOKEN }}
 
       - name: Publish test coverage results
         uses: PavanMudigonda/jacoco-reporter@v4.9
@@ -60,17 +60,6 @@ jobs:
           coverage_report_title: 'Test coverage results'
           coverage_report_name: 'Test coverage results'
           github_token: ${{ secrets.GITHUB_TOKEN }}
-
-#      - name: JaCoCo Report
-#        uses: Madrapps/jacoco-report@v1.6.1
-#        with:
-#          paths: ${{ github.workspace }}/build/reports/jacoco/testCoverage/testCoverage.xml
-#          token: ${{ secrets.GITHUB_TOKEN }}
-#          min-coverage-overall: 40
-#          min-coverage-changed-files: 60
-#          title: '# :lobster: Coverage Report'
-#          pass-emoji: ':green_circle:'
-#          fail-emoji: ':red_circle:'
 
       - name: Jacoco Report to PR
         id: jacoco
