@@ -53,6 +53,14 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=BytePiston_cloud-curriculum
 
+      - name: Publish test coverage results
+        uses: PavanMudigonda/jacoco-reporter@v4.9
+        with:
+          coverage_results_path: 'target/site/jacoco/jacoco.xml'
+          coverage_report_title: 'Test coverage results'
+          coverage_report_name: 'Test coverage results'
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
 #      - name: JaCoCo Report
 #        uses: Madrapps/jacoco-report@v1.6.1
 #        with:
@@ -64,13 +72,20 @@ jobs:
 #          pass-emoji: ':green_circle:'
 #          fail-emoji: ':red_circle:'
 
-      - name: Publish test coverage results
-        uses: PavanMudigonda/jacoco-reporter@v4.9
+      - name: Jacoco Report to PR
+        id: jacoco
+        uses: madrapps/jacoco-report@v1.6.1
         with:
-          coverage_results_path: 'target/site/jacoco/jacoco.xml'
-          coverage_report_title: 'Test coverage results'
-          coverage_report_name: 'Test coverage results'
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          path: ${{ github.workspace }}/target/site/jacoco/jacoco.xml
+          token: ${{ secrets.GITHUB_TOKEN }}
+          min-coverage-overall: 40
+          min-coverage-changed-files: 60
+          debug-mode: false
+
+      - name: Get the Coverage info
+        run: |
+          echo "Total coverage ${{ steps.jacoco.outputs.coverage-overall }}"
+          echo "Changed Files coverage ${{ steps.jacoco.outputs.coverage-changed-files }}"
 
       # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
       - name: Update dependency graph
