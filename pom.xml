@@ -78,9 +78,14 @@
                 </configuration>
             </plugin>
             <plugin>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>3.10.0.2594</version>
+            </plugin>
+            <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.7</version>
+                <version>0.8.11</version>
                 <executions>
                     <execution>
                         <id>prepare-agent</id>
@@ -93,15 +98,22 @@
                         <goals>
                             <goal>report</goal>
                         </goals>
-                        <configuration>
-                            <formats>
-                                <format>XML</format>
-                            </formats>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.2.3</version>
+                <configuration>
+                    <skipTests>true</skipTests>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>3.10.0.2594</version>
+            </plugin>
         </plugins>
     </build>
-
 </project>
