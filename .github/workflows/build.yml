@@ -56,31 +56,40 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=BytePiston_cloud-curriculum
 
-      - name: Publish test coverage results
-        uses: PavanMudigonda/jacoco-reporter@v4.9
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v4.0.1
         with:
-          coverage_results_path: 'target/site/jacoco/jacoco.xml'
-          coverage_report_title: 'Test coverage results'
-          coverage_report_name: 'Test coverage results'
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.CODECOV_TOKEN }}
+          slug: BytePiston/spring-boot-jpa
 
-      - name: Jacoco Report to PR
-        id: jacoco
-        uses: madrapps/jacoco-report@v1.6.1
-        with:
-          paths: 'target/site/jacoco/jacoco.xml'
-          token: ${{ secrets.GITHUB_TOKEN }}
-          min-coverage-overall: 40
-          min-coverage-changed-files: 60
-          debug-mode: true
-          title: '# :lobster: Coverage Report'
-          pass-emoji: ':green_circle:'
-          fail-emoji: ':red_circle:'
+#      - name: Publish test coverage results
+#        uses: PavanMudigonda/jacoco-reporter@v4.9
+#        with:
+#          coverage_results_path: 'target/site/jacoco/jacoco.xml'
+#          coverage_report_title: 'Test coverage results'
+#          coverage_report_name: 'Test coverage results'
+#          github_token: ${{ secrets.GITHUB_TOKEN }}
+#
+#      - name: Jacoco Report to PR
+#        id: jacoco
+#        uses: madrapps/jacoco-report@v1.6.1
+#        with:
+#          paths: 'target/site/jacoco/jacoco.xml'
+#          token: ${{ secrets.GITHUB_TOKEN }}
+#          min-coverage-overall: 40
+#          min-coverage-changed-files: 60
+#          debug-mode: true
+#          title: '# :lobster: Coverage Report'
+#          pass-emoji: ':green_circle:'
+#          fail-emoji: ':red_circle:'
+#
+#      - name: Get the Coverage info
+#        run: |
+#          echo "Total coverage ${{ steps.jacoco.outputs.coverage-overall }}"
+#          echo "Changed Files coverage ${{ steps.jacoco.outputs.coverage-changed-files }}"
 
-      - name: Get the Coverage info
-        run: |
-          echo "Total coverage ${{ steps.jacoco.outputs.coverage-overall }}"
-          echo "Changed Files coverage ${{ steps.jacoco.outputs.coverage-changed-files }}"
+
+
 
       # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
 #      - name: Submit Dependency Snapshot
